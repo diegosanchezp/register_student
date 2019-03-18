@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+<!--This will be the page were the students data will be display-->
+{% block content%}
+  <!--Search bar -->
+  <form id="search-bar">
+    <input type="search" name="search" placeholder="search a student">
+    <button>search</button>
+  </form>
+  <!--Load scripts-->
+  <script src="../js/display.js"></script>
+  <!--<script src="../js/search.js"></script>-->
+{% endblock content%}

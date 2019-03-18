@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content%}
+    <section id="wrapper">
+        <p>Registro Web</p>
+        <div id="def-img"></div>
+
+        <form>
+            <label for="prfPic">Profile Picture</label>
+            <input type="file" name="prfPic">
+            <label for="name">Name</label>
+            <input type="text" name="name" required placeholder="Nombre" id="name">
+            <label for="l_name">Last Name</label>
+            <input type="text" name="l_name" required placeholder="Apellido" id="l_name">
+            <label for="e_mail">E-mail</label>
+            <input type="email" name="e_mail" required>
+            <label for="age">Age</label>
+            <input type="number" min="18" max="50" name="age" required id="age">
+            <label for="gender">Gender</label>
+            <select name="gender" id="gender">
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+                <option value="O">Other</option>
+            </select>
+            <label for="school">School</label>
+            <input type="text" name="school" placeholder="Escuela" id ="school">
+            <label for="uni">College</label>
+            <input type="text" name="uni" required placeholder="Universidad" id="uni">
+            <button>Register</button>
+            <div id="notify"></div>
+        </form>
+        
+    </section>
+    
+    <!--Load script.js-->
+    <script src="../js/index.js"></script>
+    <script src="../js/register.js"></script>
+{% endblock %}

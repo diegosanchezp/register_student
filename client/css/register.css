@@ -1,0 +1,135 @@
+/*Fonts definitions*/
+@font-face{
+    src: url(../fonts/OpenSans-Regular.ttf);
+    font-family: OpenSans-Regular;
+}
+
+@font-face{
+    src: url(../fonts/OpenSans-SemiBold.ttf);
+    font-family: OpenSans-SemiBold;
+}
+html, body{
+    width: 100%;
+    height: 100%;
+}
+body{
+    font-family: OpenSans-Regular;
+    margin: 0px;
+    background-color: #f5f7f8;
+}
+
+/*-------------Mobile first desing-------------*/
+#wrapper{
+    width: 90%;
+    margin: 4% auto;
+    background-color: white;
+    box-shadow: 0px 0px 3px 0px black;
+    border-radius: 10px;
+    padding: 10px;
+}
+#wrapper > p{
+    margin: 0px 0px 5px 0px;
+    text-align: center;
+    font-family: OpenSans-SemiBold;
+    font-size: 30px;
+}
+#wrapper > form *{
+    display: block;
+    text-align: center;
+    margin: 3% auto;
+}
+#wrapper form label{
+    display: none;
+}
+
+#wrapper label:nth-of-type(5){
+    margin-top: 10px;
+    display: block;
+    font-size: 28px;
+}
+
+#wrapper form input, #wrapper form select{
+    margin-top: 10px;
+    font-family: OpenSans-Regular;
+    font-size: 20px;
+}
+
+#wrapper form input{
+    width: 60%;
+    height: 35px;
+    
+}
+#wrapper form button{
+    background: linear-gradient(to top, #f4e300ff, #f5ff00ff);
+    border-width: 0px;
+    border-radius: 4px;
+    width: 68%;
+    font-size: 30px;
+}
+
+#def-img{
+    margin: 0px auto;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    background-image: url("../img/prf_pics/avatar2.png");
+    background-position: center center;
+    border-radius: 100%;
+    background-size: 100%;
+}
+
+/*-------------Desktop desing-------------*/
+@media only screen and (min-width: 992px){
+    #wrapper{
+        width: 60%;
+        margin: 2% auto;
+    }
+    #wrapper > form{
+        display: grid;
+        grid-template-columns: 30% 70%;
+    }
+    #wrapper > form *{
+        margin: 10px 0px;
+    }
+    #wrapper form input{
+        width: 80%;
+        height: 30px;
+        font-size: 20px;
+    }
+
+    #wrapper form label{
+        display: inline;
+        font-size: 20px;
+        width: 90%;
+        text-align: right;
+    }
+
+    #wrapper form select{
+        width: 81%;
+        text-align: center;
+        font-size: 16px;
+    }
+    
+    #wrapper label:nth-of-type(3){
+        width: 90%;
+        display: inline;
+        font-size: 20px;
+        
+    }
+    #wrapper form button{
+        grid-column: 1/3;
+        height: 40px;
+        margin: 20px auto;
+        font-size: 20px;
+    }
+    #wrapper > form #notify{
+        grid-column: 1/3;
+        color: white;
+        text-align: center;
+        background-color: black;
+        width: 80%;
+        border-radius: 4px;
+        display: none;
+        margin: 0px auto;
+    }
+}

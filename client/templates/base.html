@@ -1,0 +1,16 @@
+{#HTML Skeleton#}
+<!DOCTYPE html>
+<html>
+<head>
+	{% if title %}
+		<title>{{title}}</title>
+	{% endif %}
+	{% if style %}
+		<link rel="stylesheet" href="{{'../css/' + style}}">
+	{% endif %}
+</head>
+<body>
+	{% block content %}
+	{% endblock %}
+</body>
+</html>
