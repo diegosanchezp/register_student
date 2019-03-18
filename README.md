@@ -39,6 +39,7 @@ id | name | last_name | e_mail | age | gender | school | uni | prf_pic
 ### Initialize the database
 
 You can initialize the database by running the following command
+
 `node init-db.js`
 
 Note: if you have already initialized the database and run the previous command, the table students will be deleted.
@@ -50,4 +51,5 @@ I used swig since i was practicing flask to do this same page.
 I watched this videos and got inspired to do full-stack development
 
 [Youtube - Build a Full Stack Twitter Clone with Coding Garden](https://www.youtube.com/watch?v=JnEH9tYLxLk&t=1903s)
+
 [Youtube - Express.js Tutorial: Build RESTful APIs with Node and Express | Mosh](https://www.youtube.com/watch?v=pKd0Rpw7O48&t=1523s)
