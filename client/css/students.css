@@ -56,9 +56,9 @@ body{
     margin: 0px 10px 0px 0px;
 }
 
-#photo{
-    width: 200px;
-    height: 200px;
+.component #photo{
+    width: 80px;
+    height: 80px;
 
     background: center center no-repeat;
     background-size: 100%;
@@ -67,40 +67,48 @@ body{
 
     border-radius: 14%;
 }
-#info{
-    font-size: 18px;
+.component #info{
+    font-size: 13px;
     justify-self: center;
     grid-area: 2/2/3/3;
     text-align: center;
 }
 /*Modal window styles*/
 #modal{
-    width: 60%;
+    width: 80%;
     margin: auto;
     position: absolute;
-    top:30%;
-    left:50%;
-    margin-left: -30%;
-    margin-top: -15%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 99;
 
 }
+#modal #container{
+    margin: 0px;
+}
 #modal #container #photo{
     grid-column: 2/3;
+    width: 80px;
+    height: 80px;
+    place-self: center;
+    margin-top: 10px;
 }
 #modal #container .del-ico{
-    width: 30%;
+    width: 68%;
 }
 
 #modal #container #info{
     display: grid;
-    width: 60%;
+    /*width: 60%;*/
     grid-template-columns: 30% 70%;
     border: 1px solid black;
     border-radius: 10px;
     padding: 10px;
-    margin: 10px;
+    margin: 10px 0px 10px 0px;
     border-style: dashed;
+    grid-area: 2/2/3/3;
+    font-size: 13px;
 }
 
 #modal #container #info > p{
@@ -137,7 +145,7 @@ body{
 /*-------------Tablet desing-------------*/
 @media only screen and (min-width: 401px) and (max-width: 960px) {
     .component{
-        width: 30%;
+        width: 40%;
     }
 
     #info{
@@ -158,6 +166,16 @@ body{
         font-size: 16px;
     }
     #photo{
+        width: 100px;
+        height: 100px;
+    }
+    #modal #container .del-ico{
+        width: 20%;
+    }
+    #modal #container #info{
+        font-size: 17px;
+    }
+    #modal #container #photo{
         width: 100px;
         height: 100px;
     }
