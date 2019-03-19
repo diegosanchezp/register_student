@@ -24,7 +24,21 @@ function equalStudent(a, b) {
         return false;
     }
 }
-
+function search(search_key, st_key) {
+    //Search a student in the database and return the data associated with it 
+    return new Promise((resolve, reject) => {
+        let query = `SELECT * FROM students WHERE ${search_key} = ?`;
+        db.all(query, st_key, (err, row) => {
+            if (err) {
+                reject(err);
+            } else if (row.length == 0) {
+                reject(new Error("Student not found"));
+            } else {
+                resolve(row);
+            }
+        });
+    });
+}
 function validImage(filename) {
     //Verify that file extension is JPG, JPEG, or PNG
     let ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg'];
@@ -64,7 +78,7 @@ app.get('/', (req, res) => {
         massage: "Hello from server"
     });
 });
-
+//Register route
 app.post('/register', (req, res) => {
     //If there is an image
     if (Object.keys(req.files).length != 0) {
@@ -112,7 +126,7 @@ app.post('/register', (req, res) => {
         }
     );
 });
-
+//Get all students route 
 app.get('/students', (req, res) => {
     db.all('SELECT * FROM students', (err, row) => {
         if (err) {
@@ -123,6 +137,7 @@ app.get('/students', (req, res) => {
     });
 });
 
+//Search Route
 app.get('/students/:key', (req, res) => {
     let email_reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let split = req.params.key.split(' ');
@@ -159,34 +174,47 @@ app.get('/students/:key', (req, res) => {
                 }
             }
         );
+    // Warning callback hell
     } else if (split.length == 1) {
-        let query = 'SELECT * FROM students WHERE name = ?';
-        db.all(query, split[0],
-            (err, row) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    if (row.length > 0) {
-                        res.send(row);
-                    } else {
-                        query = 'SELECT * FROM students WHERE last_name = ?';
-                        db.all(query, split[0], (err, row) => {
-                            if (err) {
-                                console.error(err);
-                            } else {
-                                res.send(row);
+        // Search a student by its name
+        search("name", split[0]).then(row => res.send(row))
+        .catch(error => {
+            // Search a student by its last_name
+            if (error.message == "Student not found") {
+                search("last_name", split[0]).then(row => res.send(row))
+                .catch(error => {
+                    if (error.message == "Student not found") {
+                       // Search a student by its school 
+                       search("school", split[0]).then(row => res.send(row))
+                       .catch(error => {
+                            if (error.message == "Student not found"){
+                                // Search a student by its university
+                                search("uni", split[0]).then(row => res.send(row))
+                                .catch(error =>{
+                                    if (error.message == "Student not found"){
+                                        // Search a student by its gender
+                                        search("gender", split[0]).then(row => res.send(row))
+                                        .catch(error =>{
+                                            if (error.message == "Student not found") {
+                                                // Search student by it's age
+                                                search("age", split[0]).then(row => res.send(row))
+                                                .catch(error => res.status(400).send("Bad request"));
+                                            }
+                                        });
+                                    }
+                                });
                             }
-                        });
+                       });
                     }
-
-                }
+                });
             }
-        );
+        });
     } else {
         res.status(400).send('Bad Request');
     }
 });
 
+//Delete a student route
 app.delete('/students/delete/:email', (req, res) => {
     let query = 'DELETE FROM students WHERE e_mail = ?';
     db.run(query, req.params.email, (error) => {
