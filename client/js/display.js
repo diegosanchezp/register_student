@@ -85,7 +85,7 @@ function remove(students) {
         del.forEach(d => {
             d.addEventListener('click', () => {
                 //Set display to none
-                if (confirm("¿Realmente desea eliminar el estudiante?")) {
+                if (confirm("Do you really want to delete this student?")) {
                     //Delete from database
                     //Find what student i'm talking about
                     let sEmail = d.parentNode.lastElementChild.lastElementChild.innerHTML;
@@ -103,8 +103,6 @@ function remove(students) {
     }
 }
 
-
-
 // Fetch students data from database
 
 let API_URL = `http://${IP}:5000/`;
@@ -112,97 +110,6 @@ fetch(API_URL + 'students', { method: 'GET' })
     .then(response => response.json())
     .then(students => {
         if (students.length > 0) {
-            // TO-DO remove the commented code below
-            // Display all students with partial info 
-            /*students.forEach( st => {
-                let div = document.createElement('div');
-                div.className = 'component';
-                div.innerHTML= 
-                `<div id="container">
-                    <div class="info-ico"></div>
-                    <img src="../img/prf_pics/${st.prf_pic}" id="photo">
-                    <div class="del-ico"></div>
-                    <section id="info">
-                        <p>${st.name}</p>
-                        <p>${st.age}</p>    
-                        <p>${st.school}</p>
-                        <p style="display: none;">${st.e_mail}</p>
-                    </section>
-                </div>`;
-                
-                document.body.appendChild(div);
-            });*/
-
-            // Display complete student data
-            /*let infos = document.querySelectorAll('.info-ico');
-            infos.forEach( i => {
-                i.addEventListener('click', ()=>{
-                    //Find what student i'm talking about
-                    let sEmail = i.parentNode.lastElementChild.lastElementChild.innerHTML;
-                    //Get student from students array
-                    students.forEach( st => {
-                        if(st.e_mail == sEmail){
-                            //Add overlay
-                            let overlay =  document.createElement('div');
-                            overlay.className = 'overlay';
-                            document.body.appendChild(overlay);
-                            //Display info window on dom
-                            let modal= document.createElement('div');
-                            modal.id = 'modal';
-                            modal.innerHTML =
-                            `<div id="container">
-                                <img src="./img/prf_pics/${st.prf_pic}" id="photo">
-                                <label class="del-ico" for="click"></label>
-                                <section id="info">
-                                    <p>Nombre:</p>
-                                    <p>${st.name}</p>
-                                    <p>Apellido:</p>
-                                    <p>${st.last_name}</p>
-                                    <p>E-mail:</p>
-                                    <p>${st.e_mail}</p>
-                                    <p>Edad:</p>
-                                    <p>${st.age}</p>   
-                                    <p>Género:</p>
-                                    <p>${st.gender}</p>
-                                    <p>Escuela:</p>
-                                    <p>${st.school}</p> 
-                                    <p>Universidad:</p>
-                                    <p>${st.uni}</p>
-                                </section>
-                            </div>`;
-                            document.body.appendChild(modal);
-                            let del_ico = modal.firstElementChild.children[1];
-                            del_ico.addEventListener('click', ()=>{
-                                overlay.remove();
-                                modal.remove();
-    
-                            })
-                        }
-                    });
-                });
-            });*/
-
-            // Remove a student
-            /*let del = document.querySelectorAll('.del-ico');
-            del.forEach( d =>{
-                d.addEventListener('click', () => {
-                    //Set display to none
-                    if(confirm("¿Realmente desea eliminar el estudiante?")){
-                        //Delete from database
-                        //Find what student i'm talking about
-                        let sEmail = d.parentNode.lastElementChild.lastElementChild.innerHTML;
-                        console.log(sEmail);
-                        fetch(API_URL + 'students/delete/' + sEmail, {method: 'DELETE'} )
-                        .then(response => response.text())
-                        .then(message => {
-                            console.log(message);
-                            d.parentElement.remove();
-                        })
-                        .catch(error =>{console.log(error)});
-                    }
-                    
-                });
-            });*/
             display(students);
             info(students);
             remove(students);
@@ -229,16 +136,16 @@ fetch(API_URL + 'students', { method: 'GET' })
                                 div.className = 'component';
                                 div.innerHTML =
                                     `<div id="container">
-                            <div class="info-ico"></div>
-                            <img src="../img/prf_pics/${st.prf_pic}" id="photo">
-                            <div class="del-ico"></div>
-                            <section id="info">
-                                <p>${st.name}</p>
-                                <p>${st.age}</p>    
-                                <p>${st.school}</p>
-                                <p style="display: none;">${st.e_mail}</p>
-                            </section>
-                        </div>`;
+                                    <div class="info-ico"></div>
+                                    <img src="../img/prf_pics/${st.prf_pic}" id="photo">
+                                    <div class="del-ico"></div>
+                                    <section id="info">
+                                        <p>${st.name}</p>
+                                        <p>${st.age}</p>    
+                                        <p>${st.school}</p>
+                                        <p style="display: none;">${st.e_mail}</p>
+                                    </section>
+                                </div>`;
 
                                 document.body.appendChild(div);
                             });
@@ -258,4 +165,3 @@ fetch(API_URL + 'students', { method: 'GET' })
     .catch(error => {
         console.error(error);
     });
-

@@ -12,33 +12,12 @@ form.addEventListener('submit', (event) => {
     event.preventDefault();
     let formData = new FormData(form);
 
-    let name = formData.get('name');
-    let l_name = formData.get('l_name');
-    let age = formData.get('age');
-    let gender = formData.get('gender');
-    let school = formData.get('school');
-    let uni = formData.get('uni');
-    let file = formData.get('file');
-
-    let formObj = {
-        name, l_name,
-        age, gender, school, uni
-    };
-
-    //Send data to server
-    /*fetch(API_URL, { //Make a post request to server
-        method: "POST",
-        body: JSON.stringify(formObj),
-        headers: {
-        	'content-type':'application/json'
-        }
-    });*/
-
-    //Send image to server
+    //Send form data to server
     fetch(API_URL, {
         method: "POST",
         body: formData
-    }).then(response => response.text())
+    })
+        .then(response => response.text())
         .then(message => {
             let notify = document.querySelector("#wrapper > form #notify");
             console.log(message);
