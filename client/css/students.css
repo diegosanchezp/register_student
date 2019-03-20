@@ -20,7 +20,9 @@ body{
 }
 
 /*-------------Mobile first desing-------------*/
-
+#main{
+    width: 100%;
+}
 .component{
     width: 48%;
     display: inline-block;
@@ -137,9 +139,22 @@ body{
 }
 
 #search-bar{
+    position: fixed;
+    width: 100%;
     text-align: center;
     background-color: #121212;
     padding: 10px 0px 10px 0px;
+}
+
+#search-bar #reload{
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    top: 2px;
+    left: 2px;
+    background: url("../img/reload_icon.png") center center no-repeat;
+    background-size: 100%;
+    display: inline;
 }
 
 /*-------------Tablet desing-------------*/

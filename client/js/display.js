@@ -1,6 +1,7 @@
 // This script display students data in form of a JSON object 
 // visually
 const IP = '192.168.2.4';
+const main = document.querySelector("#main");
 // Function definitions/
 function display(students) {
     if (students.length > 0) {
@@ -20,8 +21,7 @@ function display(students) {
                     <p style="display: none;">${st.e_mail}</p>
                 </section>
             </div>`;
-
-            document.body.appendChild(div);
+            main.appendChild(div);
         });
     }
 }
@@ -102,6 +102,10 @@ function remove(students) {
         });
     }
 }
+// Add a top margin to prevent content overlay with search bar
+const form = document.querySelector("#search-bar");
+
+main.style.paddingTop = form.clientHeight + "px";
 
 // Fetch students data from database
 
@@ -165,3 +169,19 @@ fetch(API_URL + 'students', { method: 'GET' })
     .catch(error => {
         console.error(error);
     });
+
+// Reload or refresh all student 
+
+const reload = document.querySelector("#search-bar #reload");
+reload.addEventListener("click", ()=>{
+   API_URL = `http://${IP}:5000/`;
+   fetch(API_URL + 'students', { method: 'GET' })
+    .then(response => response.json())
+    .then(students => {
+        // Remove all current students displayed
+        const oldStudents = document.querySelectorAll(".component");
+        oldStudents.forEach(st => st.remove());
+        display(students);
+    })
+    .catch(error => console.error(error));
+})
