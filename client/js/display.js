@@ -90,6 +90,7 @@ function remove(students) {
                     //Find what student i'm talking about
                     let sEmail = d.parentNode.lastElementChild.lastElementChild.innerHTML;
                     console.log(sEmail);
+                    API_URL = `http://${IP}:5000/`;
                     fetch(API_URL + 'students/delete/' + sEmail, { method: 'DELETE' })
                         .then(response => response.text())
                         .then(message => {

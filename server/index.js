@@ -11,7 +11,10 @@ const fileUpload = require('express-fileupload');
 
 app.use(cors());
 app.use(express.json());
-app.use(fileUpload());
+app.use(fileUpload({
+    limits: {fileSize: 3145728}, //MAX_FILE_SIZE = 3MB
+    abortOnLimit: true
+}));
 
 /*Function definitions*/
 function equalStudent(a, b) {
@@ -97,13 +100,12 @@ app.post('/register', (req, res) => {
             }
         } else {
             if (req.body.gender == 'F') {
-                req.body['prf_pic'] = 'avatar3.png';
+                req.body['prf_pic'] = 'avatar6.png';
             } else {
                 req.body['prf_pic'] = 'avatar2.png';
             }
         }
     }
-    console.log(req.body);
 
     db.get(
         'SELECT * FROM students WHERE e_mail = ?',
@@ -117,7 +119,8 @@ app.post('/register', (req, res) => {
                 if (req.body.e_mail != row.e_mail) {
                     //Save req.body to database
                     registerStudent(req);
-                    res.send('Student registered');
+                    console.log(`Student ${req.body.name} registered`);
+                    res.send(`Student ${req.body.name} registered`);
                 } else {
                     console.log('Student Already registered');
                     res.send('Already registered');
