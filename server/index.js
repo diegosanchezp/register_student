@@ -218,14 +218,14 @@ app.get('/students/:key', (req, res) => {
 });
 
 //Delete a student route
-app.delete('/students/delete/:email', (req, res) => {
-    let query = 'DELETE FROM students WHERE e_mail = ?';
-    db.run(query, req.params.email, (error) => {
+app.delete('/students/delete/:ID', (req, res) => {
+    let query = 'DELETE FROM students WHERE id = ?';
+    db.run(query, req.params.ID, (error) => {
         if (error) {
             res.students(500).send('Server Error');
         } else {
-            console.log(`Student ${req.params.email} deleted`);
-            res.send(`Student ${req.params.email} deleted`);
+            console.log(`Student ${req.params.ID} deleted`);
+            res.send(`Student deleted`);
         }
     });
 });

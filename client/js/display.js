@@ -2,6 +2,10 @@
 // visually
 const IP = '192.168.2.4';
 const main = document.querySelector("#main");
+const form = document.querySelector("#search-bar");
+// Add a top padding to prevent content overlay with search bar
+main.style.paddingTop = form.clientHeight + "px";
+
 // Function definitions/
 function display(students) {
     if (students.length > 0) {
@@ -18,7 +22,7 @@ function display(students) {
                     <p>${st.name}</p>
                     <p>${st.age}</p>    
                     <p>${st.school}</p>
-                    <p style="display: none;">${st.e_mail}</p>
+                    <p style="display: none;">${st.id}</p>
                 </section>
             </div>`;
             main.appendChild(div);
@@ -33,10 +37,10 @@ function info(students) {
         infos.forEach(i => {
             i.addEventListener('click', () => {
                 //Find what student i'm talking about
-                let sEmail = i.parentNode.lastElementChild.lastElementChild.innerHTML;
+                let sID= i.parentNode.lastElementChild.lastElementChild.innerHTML;
                 //Get student from students array
                 students.forEach(st => {
-                    if (st.e_mail == sEmail) {
+                    if (st.id == sID) {
                         //Add overlay
                         let overlay = document.createElement('div');
                         overlay.className = 'overlay';
@@ -63,6 +67,7 @@ function info(students) {
                                 <p>${st.school}</p> 
                                 <p>Universidad:</p>
                                 <p>${st.uni}</p>
+                                <p style="display: none;">${st.id}</p>
                             </section>
                         </div>`;
                         document.body.appendChild(modal);
@@ -77,7 +82,23 @@ function info(students) {
         });
     }
 }
+function modify(){
+    // Modify a student data
 
+    // TODO: change display email for id
+    // TODO: Put modify button on modal
+    // When modify button is clicked 
+    // 1) display an accept button [Green gradient github]
+    // 1.2) display cancel button  [Red color]
+    // 2) convert all p:nth-child(odd) into inputs with the actual value
+    // When user clicks accept button do 
+    // 1) Make a post request to rest API server to modify the existing data
+    // Important save id unique key !!
+    // 2) If request succesful reload current data in modal
+    // 3) Refresh data in component
+
+    console.log("test");
+}
 function remove(students) {
     // Remove a student
     if (students.length > 0) {
@@ -88,10 +109,10 @@ function remove(students) {
                 if (confirm("Do you really want to delete this student?")) {
                     //Delete from database
                     //Find what student i'm talking about
-                    let sEmail = d.parentNode.lastElementChild.lastElementChild.innerHTML;
-                    console.log(sEmail);
+                    let sID= d.parentNode.lastElementChild.lastElementChild.innerHTML;
+                    console.log(sID);
                     API_URL = `http://${IP}:5000/`;
-                    fetch(API_URL + 'students/delete/' + sEmail, { method: 'DELETE' })
+                    fetch(API_URL + 'students/delete/' + sID, { method: 'DELETE' })
                         .then(response => response.text())
                         .then(message => {
                             console.log(message);
@@ -103,10 +124,6 @@ function remove(students) {
         });
     }
 }
-// Add a top margin to prevent content overlay with search bar
-const form = document.querySelector("#search-bar");
-
-main.style.paddingTop = form.clientHeight + "px";
 
 // Fetch students data from database
 
