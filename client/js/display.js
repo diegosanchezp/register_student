@@ -50,31 +50,37 @@ function info(students) {
                         modal.id = 'modal';
                         modal.innerHTML =
                             `<div id="container">
+                            <div id="modify-ico"></div>
                             <img src="./img/prf_pics/${st.prf_pic}" id="photo">
                             <label class="del-ico" for="click"></label>
                             <section id="info">
-                                <p>Nombre:</p>
+                                <p>Name:</p>
                                 <p>${st.name}</p>
-                                <p>Apellido:</p>
+                                <p>Last_name:</p>
                                 <p>${st.last_name}</p>
                                 <p>E-mail:</p>
                                 <p>${st.e_mail}</p>
-                                <p>Edad:</p>
+                                <p>Age:</p>
                                 <p>${st.age}</p>   
-                                <p>Género:</p>
+                                <p>Gender:</p>
                                 <p>${st.gender}</p>
-                                <p>Escuela:</p>
+                                <p>School:</p>
                                 <p>${st.school}</p> 
-                                <p>Universidad:</p>
+                                <p>College:</p>
                                 <p>${st.uni}</p>
                                 <p style="display: none;">${st.id}</p>
                             </section>
                         </div>`;
                         document.body.appendChild(modal);
-                        let del_ico = modal.firstElementChild.children[1];
+                        const del_ico = modal.firstElementChild.children[2];
                         del_ico.addEventListener('click', () => {
                             overlay.remove();
                             modal.remove();
+                        })
+                        const mod_ico = modal.firstElementChild.children[0];
+                        mod_ico.addEventListener('click', () => {
+                            modify(modal, st);
+
                         })
                     }
                 });
@@ -82,14 +88,119 @@ function info(students) {
         });
     }
 }
-function modify(){
+function modify(modal, st){
     // Modify a student data
+    // This function will be called inside info()
+    
+    // Remove info part of modal
+    const info_old = modal.firstElementChild.children[3];
+    info_old.remove();
 
-    // TODO: change display email for id
-    // TODO: Put modify button on modal
+    // If cancel button pressed restore modal
     // When modify button is clicked 
     // 1) display an accept button [Green gradient github]
     // 1.2) display cancel button  [Red color]
+    // Replace 
+    // Choose what default value to display in gender dropdown list
+    let selec;
+    switch(st.gender){
+        case 'M':
+            selec = `
+                <option value="M" selected>Male</option>
+                <option value="F">Female</option>
+                <option value="O">Other</option>
+            `;
+            break;
+        case 'F':
+            selec = `
+                <option value="M">Male</option>
+                <option value="F" selected>Female</option>
+                <option value="O">Other</option>
+            `;
+            break;
+        case 'O':
+            selec = `
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+                <option value="O" selected>Other</option>
+            `;
+            break;
+    }
+    const form_info = document.createElement("form");
+    form_info.id = "form-info";
+    form_info.innerHTML =
+    `
+        <label for="prfPic">Profile Picture</label>
+        <input type="file" name="prfPic">
+        <label for="name">Name</label>
+        <input type="text" name="name" required placeholder="Nombre" id="name" value="${st.name}">
+        <label for="l_name">Last Name</label>
+        <input type="text" name="l_name" required placeholder="Apellido" id="l_name" value="${st.last_name}">
+        <label for="e_mail">E-mail</label>
+        <input type="email" name="e_mail" required value="${st.e_mail}">
+        <label for="age">Age</label>
+        <input type="number" min="18" max="50" name="age" required id="age" value="${st.age}">
+        <label for="gender">Gender</label>
+        <select name="gender" id="gender">
+            ${selec}
+        </select>
+        <label for="school">School</label>
+        <input type="text" name="school" placeholder="Escuela" id ="school" value="${st.school}">
+        <label for="uni">College</label>
+        <input type="text" name="uni" required placeholder="Universidad" id="uni" value="${st.uni}">
+        <div id="modify-bts">
+            <button>Accept</button>
+            <button>Cancel</button>
+        </div>
+        <div id="notify"></div>
+    `;
+    modal.firstElementChild.appendChild(form_info);
+    const bts = document.querySelector("#modify-bts");
+    // Cancel button
+    const cancel = bts.lastElementChild;
+    cancel.addEventListener("click", ()=>{
+        bts.remove();
+        form_info.remove();
+        modal.firstElementChild.appendChild(info_old);
+    });
+
+    //Accept button
+    form_info.addEventListener("submit", (event)=>{
+        event.preventDefault();
+        let formData = new FormData(form_info);
+        formData.append("prf_pic", st.prf_pic);
+        API_URL = `http://${IP}:5000/modify/`;
+        fetch(API_URL + st.id,{
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.text())
+        .then(message => {
+            console.log(message);
+            //Reload updated data in modal
+            info_old.innerHTML = `<p>Name:</p>
+            <p>${formData.get("name")}</p>
+            <p>Last_name:</p>
+            <p>${formData.get("l_name")}</p>
+            <p>E-mail:</p>
+            <p>${formData.get("e_mail")}</p>
+            <p>Age:</p>
+            <p>${formData.get("age")}</p>   
+            <p>Gender:</p>
+            <p>${formData.get("gender")}</p>
+            <p>School:</p>
+            <p>${formData.get("school")}</p> 
+            <p>College:</p>
+            <p>${formData.get("uni")}</p>
+            <p style="display: none;">${st.id}</p>`
+            form_info.remove();
+            modal.firstElementChild.appendChild(info_old);
+            
+
+        })
+        .catch(error => console.log(error));
+});
+    
     // 2) convert all p:nth-child(odd) into inputs with the actual value
     // When user clicks accept button do 
     // 1) Make a post request to rest API server to modify the existing data
@@ -97,7 +208,7 @@ function modify(){
     // 2) If request succesful reload current data in modal
     // 3) Refresh data in component
 
-    console.log("test");
+
 }
 function remove(students) {
     // Remove a student
@@ -137,13 +248,13 @@ fetch(API_URL + 'students', { method: 'GET' })
             remove(students);
             // Search a student
             const searchForm = document.querySelector("#search-bar");
-            API_URL = `http://${IP}:5000/students/`
             searchForm.addEventListener("submit", event => {
                 event.preventDefault();
                 const formData = new FormData(searchForm);
                 const searchKey = formData.get("search");
                 console.log(searchKey);
                 // Fetch from database
+                API_URL = `http://${IP}:5000/students/`
                 fetch(API_URL + searchKey, { method: 'GET' })
                     .then(response => response.json())
                     .then(students_ => {
@@ -165,17 +276,17 @@ fetch(API_URL + 'students', { method: 'GET' })
                                         <p>${st.name}</p>
                                         <p>${st.age}</p>    
                                         <p>${st.school}</p>
-                                        <p style="display: none;">${st.e_mail}</p>
+                                        <p style="display: none;">${st.id}</p>
                                     </section>
                                 </div>`;
-
                                 document.body.appendChild(div);
                             });
                             info(students_);
+                            console.log("hello");
                             remove(students_);
                         }
                     })
-                    .catch(error => console.error(error));
+                    .catch(error => console.log(error));
             });
 
         } else {
@@ -189,17 +300,21 @@ fetch(API_URL + 'students', { method: 'GET' })
     });
 
 // Reload or refresh all student 
-
-const reload = document.querySelector("#search-bar #reload");
-reload.addEventListener("click", ()=>{
-   API_URL = `http://${IP}:5000/`;
-   fetch(API_URL + 'students', { method: 'GET' })
-    .then(response => response.json())
-    .then(students => {
-        // Remove all current students displayed
-        const oldStudents = document.querySelectorAll(".component");
-        oldStudents.forEach(st => st.remove());
-        display(students);
-    })
-    .catch(error => console.error(error));
-})
+const reload_btn = document.querySelector("#search-bar #reload");
+reload_btn.addEventListener("click", ()=>{
+    reload();
+});
+function reload(){
+    API_URL = `http://${IP}:5000/`;
+    fetch(API_URL + 'students', { method: 'GET' })
+        .then(response => response.json())
+        .then(students => {
+            // Remove all current students displayed
+            const oldStudents = document.querySelectorAll(".component");
+            oldStudents.forEach(st => st.remove());
+            display(students);
+            info(students);
+            remove(students);
+        })
+        .catch(error => console.error(error));
+}

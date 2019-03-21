@@ -47,3 +47,4 @@ server/.cache
 
 # SQL Local files
 server/*.db
+server/sqlite3.exe
