@@ -3,7 +3,7 @@
 // to a data SQL base
 
 // Grab form data
-const IP = '192.168.2.4';
+const IP = '192.168.2.2';
 
 function notify(message){
     let notifyElem = document.querySelector("#wrapper > form #notify");
@@ -13,7 +13,7 @@ function notify(message){
 }
 
 const form = document.querySelector('#wrapper form');
-const API_URL = `http://${IP}:5000/register`;
+const API_URL = `http://${IP}:5000/students`;
 form.addEventListener('submit', (event) => {
     //Stop default action 
     event.preventDefault();

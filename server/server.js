@@ -81,8 +81,9 @@ app.get('/', (req, res) => {
         massage: "Hello from server"
     });
 });
+
 //Register route
-app.post('/register', (req, res) => {
+/*app.post('/register', (req, res) => {
     //If there is an image
     if (Object.keys(req.files).length != 0) {
         if (validImage(req.files.prfPic.name)) {
@@ -128,9 +129,10 @@ app.post('/register', (req, res) => {
             }
         }
     );
-});
+});*/
+
 //Get all students route 
-app.get('/students', (req, res) => {
+/*app.get('/students', (req, res) => {
     db.all('SELECT * FROM students', (err, row) => {
         if (err) {
             console.error(err);
@@ -138,10 +140,16 @@ app.get('/students', (req, res) => {
             res.json(row);
         }
     });
-});
+});*/
+const studentRoute = require("./routes/students");
+const updateRoute = require("./routes/update");
+const searchRoute = require("./routes/search");
+app.use("/students", studentRoute);
+app.use("/update", updateRoute);
+app.use("/search", searchRoute);
 
 //Search Route
-app.get('/students/:key', (req, res) => {
+/*app.get('/students/:key', (req, res) => {
     let email_reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let split = req.params.key.split(' ');
     console.log(split);
@@ -215,10 +223,10 @@ app.get('/students/:key', (req, res) => {
     } else {
         res.status(400).send('Bad Request');
     }
-});
+});*/
 
 //Delete a student route
-app.delete('/students/delete/:ID', (req, res) => {
+/*app.delete('/students/delete/:ID', (req, res) => {
     let query = 'DELETE FROM students WHERE id = ?';
     db.run(query, req.params.ID, (error) => {
         if (error) {
@@ -228,8 +236,9 @@ app.delete('/students/delete/:ID', (req, res) => {
             res.send(`Student deleted`);
         }
     });
-});
-app.post('/modify/:ID', (req, res)=>{
+});*/
+
+/*app.post('/modify/:ID', (req, res)=>{
     
     let query = "UPDATE students SET name = ?, last_name = ?, e_mail = ?, \
     age =?, gender = ?, school = ?, uni = ?, prf_pic = ? WHERE id = ?";
@@ -263,9 +272,9 @@ app.post('/modify/:ID', (req, res)=>{
             }
         }
     );
-});
+});*/
 const port = process.env.PORT || 5000;
-app.listen(port, '192.168.2.4', () => console.log(`Listening on 192.168.2.4:${port}`)).on('error', (error) => {
+app.listen(port, '192.168.2.2', () => console.log(`Listening on 192.168.2.2:${port}`)).on('error', (error) => {
     if (error.code === 'EADDRNOTAVAIL' || error.code === 'ENOTFOUND') {
         app.listen(port, () => console.log(`Listening on http://localhost:${port}/`));
     }

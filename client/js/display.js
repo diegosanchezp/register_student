@@ -1,6 +1,6 @@
 // This script display students data in form of a JSON object 
 // visually
-const IP = '192.168.2.4';
+const IP = '192.168.2.2';
 const main = document.querySelector("#main");
 const form = document.querySelector("#search-bar");
 // Add a top padding to prevent content overlay with search bar
@@ -169,7 +169,7 @@ function modify(modal, st){
         event.preventDefault();
         let formData = new FormData(form_info);
         formData.append("prf_pic", st.prf_pic);
-        API_URL = `http://${IP}:5000/modify/`;
+        API_URL = `http://${IP}:5000/update/`;
         fetch(API_URL + st.id,{
             method: "POST",
             body: formData
@@ -223,7 +223,7 @@ function remove(students) {
                     let sID= d.parentNode.lastElementChild.lastElementChild.innerHTML;
                     console.log(sID);
                     API_URL = `http://${IP}:5000/`;
-                    fetch(API_URL + 'students/delete/' + sID, { method: 'DELETE' })
+                    fetch(API_URL + 'students/' + sID, { method: 'DELETE' })
                         .then(response => response.text())
                         .then(message => {
                             console.log(message);
@@ -254,7 +254,7 @@ fetch(API_URL + 'students', { method: 'GET' })
                 const searchKey = formData.get("search");
                 console.log(searchKey);
                 // Fetch from database
-                API_URL = `http://${IP}:5000/students/`
+                API_URL = `http://${IP}:5000/search/`
                 fetch(API_URL + searchKey, { method: 'GET' })
                     .then(response => response.json())
                     .then(students_ => {
@@ -282,7 +282,6 @@ fetch(API_URL + 'students', { method: 'GET' })
                                 document.body.appendChild(div);
                             });
                             info(students_);
-                            console.log("hello");
                             remove(students_);
                         }
                     })

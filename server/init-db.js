@@ -1,7 +1,7 @@
 'use strict';
 // Database
 let sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.chaced.Database('students.db');
+let db = new sqlite3.cached.Database('students.db');
 // I/O console 
 const readline = require('readline').createInterface({
   input: process.stdin,
