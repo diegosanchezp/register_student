@@ -21,7 +21,6 @@ server/build/Release
 
 # Dependency directories
 server/node_modules/
-server/node_modules/dotenv/
 jspm_packages/
 
 # TypeScript v1 declaration files

@@ -46,7 +46,7 @@ app.get('/students', (req, res) => {
 })
 // app.use(express.static(path.join(__dirname, '../client')));
 const port = process.env.STATIC_PORT || 8080;
-app.listen(port, process.env.LOCAL_IP, () => console.log(`Listening on ${process.env.LOCAL_IP}:${port}`))
+app.listen(port, process.env.LOCAL_IP, () => console.log(`Listening on ${process.env.LOCAL_IPt}:${port}`))
     .on('error', (error) => {
         if (error.code === 'EADDRNOTAVAIL' || error.code === 'ENOTFOUND') {
             app.listen(port, () => console.log(`Listening on http://localhost:${port}/`));
