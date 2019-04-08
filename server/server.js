@@ -8,6 +8,10 @@ const db = new sqlite3.Database('students.db');
 //Middlewares
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
+//Enviroment variables
+const dotenv = require('dotenv');
+dotenv.config();
+
 
 app.use(cors());
 app.use(express.json());
@@ -30,8 +34,8 @@ app.use("/students", studentRoute);
 app.use("/update", updateRoute);
 app.use("/search", searchRoute);
 
-const port = process.env.PORT || 5000;
-app.listen(port, '192.168.2.2', () => console.log(`Listening on 192.168.2.2:${port}`)).on('error', (error) => {
+const port = process.env.SERVER_PORT || 5000;
+app.listen(port, process.env.LOCAL_IP, () => console.log(`Listening on ${process.env.LOCAL_IP}:${port}`)).on('error', (error) => {
     if (error.code === 'EADDRNOTAVAIL' || error.code === 'ENOTFOUND') {
         app.listen(port, () => console.log(`Listening on http://localhost:${port}/`));
     }
