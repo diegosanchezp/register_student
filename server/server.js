@@ -29,10 +29,13 @@ app.get('/', (req, res) => {
 const studentRoute = require("./routes/students");
 const updateRoute = require("./routes/update");
 const searchRoute = require("./routes/search");
-
+const adminRoute = require("./routes/admin");
+//Endpoints
 app.use("/students", studentRoute);
 app.use("/update", updateRoute);
 app.use("/search", searchRoute);
+app.use("/admin", adminRoute);
+
 
 const port = process.env.SERVER_PORT || 5000;
 app.listen(port, process.env.LOCAL_IP, () => console.log(`Listening on ${process.env.LOCAL_IP}:${port}`)).on('error', (error) => {
