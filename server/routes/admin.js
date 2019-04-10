@@ -1,11 +1,10 @@
 // This is the route where the admin access the system
 const express = require("express");
 const router = express.Router();
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.cached.Database('./students.db');
+const sqlite3 = require("sqlite3").verbose();
+const db = new sqlite3.cached.Database("./students.db");
 const bcrypt = require("bcrypt");
-
-
+const jwt = require("jsonwebtoken");
 
 // TODO: CRAFT promise function that check if user exist 
 // in database and use it with async/await
@@ -71,14 +70,24 @@ router.post("/login", (req, res)=>{
                     try{
                         const match = await bcrypt.compare(req.body.password, row.password)
                         if(match){
-                            //Succesfull login - Create Session  
-                            res.status(200).send("SUCCESSFULL LOGIN BOY");
+                            //Succesfull login - Create token
+                            const token = jwt.sign(
+                                {user: row.user, e_mail: row.email, admin: true},
+                                process.env.SECRET_KEY,
+                                {expiresIn: "1h"}
+                            );
+                            res.status(200).json(
+                                {
+                                    message:"SUCCESSFULL_LOGIN",
+                                    token: token
+                                }
+                            );
                         }
                     }
                     catch(error){
+                        console.log(error);
                         res.status(500).send("Server Error");
                     }
-                    // Make session
                 }else{  
                     res.status(400).send("Admin not found");
                 }

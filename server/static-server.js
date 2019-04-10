@@ -7,6 +7,7 @@ const path = require('path');
 const swig = require('swig');
 const app = express();
 const volleyball = require('volleyball');
+const checkAuth = require('./middleware/check_auth');
 
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
@@ -35,8 +36,8 @@ app.get('/', (req, res) => {
         }
     );
 });
-
-app.get('/students', (req, res) => {
+// TO-DO: protect this route with jwt
+app.get('/students', checkAuth, (req, res) => {
     res.render('students',
         {
             'title': 'Students',
