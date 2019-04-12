@@ -1,0 +1,19 @@
+.instform{
+    width: 60%;
+    margin: 0 auto;
+}
+.instform > button{
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+.instform > label{
+    font-size: 1.2rem;
+}
+.logo{
+    display: block;
+    width: 5%;
+    border-radius: 196px;
+    margin: 0 auto;
+    margin-top: 10px;
+}

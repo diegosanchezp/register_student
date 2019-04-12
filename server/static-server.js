@@ -32,22 +32,30 @@ app.get('/', (req, res) => {
     res.render('index',
         {
             'title': 'Register students',
-            'style': 'register.css'
+            'styles': ['register.css']
         }
     );
 });
 // TO-DO: protect this route with jwt
-app.get('/students', checkAuth, (req, res) => {
+app.get('/students', (req, res) => {
     res.render('students',
         {
             'title': 'Students',
-            'style': 'students.css'
+            'styles': ['students.css']
         }
     );
 })
+app.get('/install', (req, res) =>{
+    res.render('install', 
+        {
+            'title': 'Installation setup',
+            'styles': ['materialize.min.css', 'install.css']
+        }
+    );
+});
 // app.use(express.static(path.join(__dirname, '../client')));
 const port = process.env.STATIC_PORT || 8080;
-app.listen(port, process.env.LOCAL_IP, () => console.log(`Listening on ${process.env.LOCAL_IPt}:${port}`))
+app.listen(port, process.env.LOCAL_IP, () => console.log(`Listening on ${process.env.LOCAL_IP}:${port}`))
     .on('error', (error) => {
         if (error.code === 'EADDRNOTAVAIL' || error.code === 'ENOTFOUND') {
             app.listen(port, () => console.log(`Listening on http://localhost:${port}/`));

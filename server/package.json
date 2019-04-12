@@ -4,8 +4,8 @@
   "description": "A web application that registers a student and displays it in a /students page, along with the other students registered",
   "main": "server.js",
   "scripts": {
-    "static": "nodemon static-server.js",
-    "dev": "nodemon server.js"
+    "static": "nodemon -r dotenv/config static-server.js",
+    "dev": "nodemon -r dotenv/config server.js"
   },
   "keywords": [],
   "author": "Diego Sánchez",

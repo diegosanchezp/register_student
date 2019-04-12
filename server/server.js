@@ -9,9 +9,6 @@ const db = new sqlite3.Database('students.db');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
 //Enviroment variables
-const dotenv = require('dotenv');
-dotenv.config();
-
 
 app.use(cors());
 app.use(express.json());

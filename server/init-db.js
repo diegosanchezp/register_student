@@ -30,8 +30,18 @@ readline.question(message, ans=>{
         prf_pic TEXT NOT NULL
       )`);
 
-      console.log('Database students.db created');
-
+      console.log('TABLE \"students\" created');
+      db.run(`CREATE TABLE admins (
+        user TEXT NOT NULL UNIQUE,
+        email TEXT NOT NULL UNIQUE,
+        password TEXT NOT NULL UNIQUE
+      )`);
+      console.log('TABLE \"admins\" created')
+      db.run('INSERT into admins (user, email, password) VALUES (?,?,?)', 
+        "root_admin", "root@email.com", "1234"
+      );
+      console.log('root_admin created, default password 1234,\
+        default email root@email.com\nRemeber to set this values to your owns')
       db.close();
     });  
   }

@@ -87,9 +87,11 @@ router.post("/login", (req, res)=>{
                     catch(error){
                         console.log(error);
                         res.status(500).send("Server Error");
+                        db.close();
                     }
                 }else{  
                     res.status(400).send("Admin not found");
+                    db.close();
                 }
             }
         }

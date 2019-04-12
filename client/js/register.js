@@ -3,7 +3,7 @@
 // to a data SQL base
 
 // Grab form data
-const IP = '192.168.2.2';
+const IP = '192.168.2.4';
 
 function notify(message){
     let notifyElem = document.querySelector("#wrapper > form #notify");

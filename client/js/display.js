@@ -1,6 +1,6 @@
 // This script display students data in form of a JSON object 
 // visually
-const IP = '192.168.2.2';
+const IP = '192.168.2.4';
 const main = document.querySelector("#main");
 const form = document.querySelector("#search-bar");
 // Add a top padding to prevent content overlay with search bar

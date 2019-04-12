@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+    <img class="logo" src="../img/prf_pics/avatar2.png">
+    <h3 class="center-align">Register students installation</h3>
+    <form class="card-panel instform">
+        <label for="user" class="tooltipped" data-position="right" data-tooltip="The root admin username">
+            Admin user
+            <i class="tiny material-icons">info_outline</i>
+        </label>
+        <input type="text" name="user" id="user">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password">
+        <label for="password2">Verify password</label>
+        <input type="password" name="password2" id="password2">
+        <button class="btn waves-effect waves-light" type="submit">
+            install
+            <i class="material-icons right">send</i>
+        </button>
+    </form>
+    <script type="text/javascript" src="../js/materialize.min.js"></script>
+    <script type="text/javascript" src="../js/install.js"></script>
+{% endblock %}
