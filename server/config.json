@@ -1,1 +1,1 @@
-{"DB_NAME":"students.db","LOCAL_IP":"192.168.2.4","STATIC_SERVER_PORT":"8080","API_PORT":"5000","SECRET_KEY":"callbackhell","PORT2":5050}
+{"DB_NAME":"students.db","LOCAL_IP":"192.168.2.4","STATIC_SERVER_PORT":"8080","API_PORT":"5000","SECRET_KEY":"callbackhell"}

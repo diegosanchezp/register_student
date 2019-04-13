@@ -18,7 +18,7 @@ form.addEventListener('submit', (event) => {
     //Stop default action 
     event.preventDefault();
     let formData = new FormData(form);
-
+    console.log(formData);
     //Send form data to server
     fetch(API_URL, {
         method: "POST",

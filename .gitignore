@@ -41,6 +41,7 @@ server/.yarn-integrity
 # dotenv environment variables file
 server/.env
 server/.env.test
+server/sysconfig.json
 
 # parcel-bundler cache (https://parceljs.org/)
 server/.cache

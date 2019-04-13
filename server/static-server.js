@@ -8,6 +8,9 @@ const swig = require('swig');
 const app = express();
 const volleyball = require('volleyball');
 const checkAuth = require('./middleware/check_auth');
+//Enviroment variables
+const {env} = require("./utilities");
+const env_var = env.read();
 
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
@@ -53,9 +56,9 @@ app.get('/install', (req, res) =>{
         }
     );
 });
-// app.use(express.static(path.join(__dirname, '../client')));
-const port = process.env.STATIC_PORT || 8080;
-app.listen(port, process.env.LOCAL_IP, () => console.log(`Listening on ${process.env.LOCAL_IP}:${port}`))
+
+const port = env_var.STATIC_SERVER_PORT || 8080;
+app.listen(port, env_var.LOCAL_IP, () => console.log(`Listening on ${env_var.LOCAL_IP}:${port}`))
     .on('error', (error) => {
         if (error.code === 'EADDRNOTAVAIL' || error.code === 'ENOTFOUND') {
             app.listen(port, () => console.log(`Listening on http://localhost:${port}/`));

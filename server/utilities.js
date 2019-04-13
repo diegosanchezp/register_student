@@ -5,18 +5,24 @@
 'use strict';
 
 const fs = require("fs");
+const FILE_NAME = "sysconfig.json";
 
 const env = {
+    /**
+     * Read a json file that contains the enviroment files
+     */
     read(){
-        // Read json file that contains the enviroment files
-        const rawdata = fs.readFileSync("config.json", {
+    const rawdata = fs.readFileSync(FILE_NAME, {
             encoding: "utf-8"
         });
         return JSON.parse(rawdata);
     },
+    /**
+     * Write a variable to json env file
+     * @param {Object} varObj 
+     */
     write(varObj){
-        // Write a variable to json env file
-        const rawdata = fs.readFileSync("config.json", {
+    const rawdata = fs.readFileSync(FILE_NAME, {
             encoding: "utf-8"
         });
 
@@ -26,10 +32,14 @@ const env = {
             dataObj[key] = varObj[key];
         }
 
-        fs.writeFileSync("config.json", JSON.stringify(dataObj));
+        fs.writeFileSync(FILE_NAME, JSON.stringify(dataObj));
     },
+    /**
+     * Delete a variable from config.json file
+     * @param {string} variable 
+     */
     delete(variable){
-        const rawdata = fs.readFileSync("config.json", {
+        const rawdata = fs.readFileSync(FILE_NAME, {
             encoding: "utf-8"
         });
         let dataObj = JSON.parse(rawdata);
@@ -42,6 +52,13 @@ const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.cached.Database("./" + env.read().DB_NAME);
 
 const sql = {
+    /**
+     * Runs the SQL query with the specified parameters and 
+     * calls the callback afterwards. It does not retrieve any result data.
+     * @param {string} query - The SQL query to run.
+     * @param  {...any} values - When the SQL statement contains placeholders, 
+     * you can pass them in here.
+     */
     run(query, ...values){
         // Run a query
         return new Promise(function (resolve, reject){
@@ -54,6 +71,13 @@ const sql = {
             });
         }); 
     },
+    /**
+     * Runs the SQL query with the specified parameters and calls the 
+     * callback with the first result row afterwards
+     * @param {string} query - The SQL query to run. 
+     * @param  {...any} values - When the SQL statement contains placeholders,  
+     * you can pass them in here.   
+     */
     get(query, ...values){
         // Get one row of data from a table
         return new Promise((resolve, reject) => {
@@ -96,7 +120,18 @@ const sql = {
         });
     },
 };
-
+/**
+ * //Verify that file extension is JPG, JPEG, or PNG
+ * @param {string} filename 
+ */
+function validImage(filename) {
+    //Verify that file extension is JPG, JPEG, or PNG
+    const ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg'];
+    for (let ext of ALLOWED_EXTENSIONS) {
+        if (filename.includes(ext)) { return true; }
+    }
+    return false;
+}
 /*sql.all("SELECT * FROM students WHERE last_name = ?", "Sánchez")
 .then(row => console.log(row))
 .catch(error => console.error(error));*/
@@ -109,8 +144,8 @@ const sql = {
     "admin3", "admin3@mail.com", "dloaldwoa"
 )
 .catch(error => console.error(error));*/
-
 module.exports = {
     env: env,
-    sql: sql
+    sql: sql,
+    validImage: validImage
 };
