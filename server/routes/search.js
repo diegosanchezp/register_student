@@ -1,9 +1,7 @@
 // This is the /search/:key route
 const express = require("express");
 const router = express.Router();
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.cached.Database('./students.db');
-const {sql} = require("../utilities");
+const {db} = require("../utilities");
 /* Function definitions */
 
 router.get("/:key", async (req, res) => {
@@ -12,7 +10,7 @@ router.get("/:key", async (req, res) => {
     console.log(split);
     try{
         if(email_reg.test(req.params.key)) {
-            const row = await sql.get("SELECT * FROM students WHERE e_mail = ?",
+            const row = await db.get("SELECT * FROM students WHERE e_mail = ?",
             req.params.key);
             if(row){
                 res.status(200).json(row);
@@ -21,12 +19,12 @@ router.get("/:key", async (req, res) => {
             }
         }else if(split.length == 2){
             const query = "SELECT * FROM students WHERE name = ? AND last_name = ?";
-            let row_array = await sql.all(query,split[0], split[1]);
+            let row_array = await db.all(query,split[0], split[1]);
             if(row_array.length > 0){
                res.status(200).json(row_array); 
             }else{
                 // Reverse search last_name AND name
-                row_array = await sql.all(query, split[1], split[0]);
+                row_array = await db.all(query, split[1], split[0]);
                 if(row_array.length > 0){
                     res.status(200).json(row_array);
                 }else{
@@ -38,7 +36,7 @@ router.get("/:key", async (req, res) => {
             // Search a student by its name "name", "last_name", "school", "uni", "gender", "age"
             const query = "SELECT * FROM students WHERE name = ? OR last_name = ? OR school = ? \
             OR uni = ? OR gender = ? OR age = ?";
-            const row = await sql.all(query, split[0], split[0], split[0], split[0], 
+            const row = await db.all(query, split[0], split[0], split[0], split[0], 
             split[0], split[0]);
             if(row.length > 0){
                 res.status(200).json(row);

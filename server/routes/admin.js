@@ -3,9 +3,8 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const {sql} = require("../utilities");
-const {env} = require("../utilities");
-const env_var = env.read();
+const {db} = require("../utilities");
+const env = process.env;
 
 router.post("/signup", async (req, res) =>{
     //Register and admin into database
@@ -14,7 +13,7 @@ router.post("/signup", async (req, res) =>{
         // TODO: check if user password === password2 frontend
         // Check that the user doesn't exists
         const hash = await bcrypt.hash(req.body.password, 10);
-        await sql.run("INSERT INTO admins (user,email,password) VALUES (?,?,?)",
+        await db.run("INSERT INTO admins (user,email,password) VALUES (?,?,?)",
             req.body.user, req.body.e_mail, hash
         );
         res.status(200).send("Admin Registered");
@@ -31,7 +30,7 @@ router.post("/signup", async (req, res) =>{
 
 router.post("/login", async (req, res)=>{
     try{
-        const row = await sql.get("SELECT * FROM admins WHERE user = ? AND email = ?", 
+        const row = await db.get("SELECT * FROM admins WHERE user = ? AND email = ?", 
         req.body.user, req.body.e_mail);
         //See if user exists
         if(row){
@@ -40,7 +39,7 @@ router.post("/login", async (req, res)=>{
                 //Succesfull login - Create token
                 const token = jwt.sign(
                     {user: row.user, e_mail: row.email, admin: true},
-                    env_var.SECRET_KEY,
+                    env.SECRET_KEY,
                     {expiresIn: "1h"}
                 );
                 res.status(200).json(

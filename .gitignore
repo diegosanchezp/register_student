@@ -49,3 +49,5 @@ server/.cache
 # SQL Local files
 server/*.db
 server/sqlite3.exe
+
+client/img/profile_pic.jpeg
